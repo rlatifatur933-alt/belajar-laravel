@@ -20,7 +20,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                         <li class="breadcrumb-item" aria-current="page">Employee</li>
-                        <li class="breadcrumb-item active" aria-current="page">New</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
                 </nav>
             </div>
@@ -30,49 +30,59 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Create.
+                    Edit.
                 </h5>
             </div>
             <div class="card-body">
                 
-                <form action="{{ route('employees.store') }}" method="POST">
+                @if ($errors->any())
+                     <div class="alert alert-danger"> 
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                 <li>{{ $error }}</li>
+                            @endforeach 
+                        </ul>
+                @endif 
+
+                <form action="{{ route('employees.update', $employee->id) }}" method="POST">
                     @csrf 
+                    @method('PUT') 
 
                     <div class="mb-3">
                         <label for="" class="form-label">Fullname</label>
-                        <input type="text" class="form-control" name="fullname" required>
+                        <input type="text" class="form-control" name="fullname" value="{{ old('fullname',$employee->fullname) }}" required>
                         @error('fullname')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Email</label>
-                        <input type="text" class="form-control" name="email" required>
+                        <input type="text" class="form-control" name="email" value="{{ old('email',$employee->email) }}" required>
                         @error('email')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" name="phone_number" required>
+                        <input type="text" class="form-control" name="phone_number" value="{{ old('phone_number',$employee->phone_number) }}" required>
                         @error('phone_number')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">address</label>
-                        <textarea name="address" class="form-control @error('address') is-invalid @enderror"></textarea>
+                        <textarea name="address" class="form-control @error('address') is-invalid @enderror">{{ old('address',$employee->address) }}</textarea>
                         @error('address')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Birth Date</label>
-                        <input type="date" class="form-control date" name="birth_date" required>
+                        <input type="date" class="form-control date" name="birth_date" value="{{ old('birth_date',$employee->birth_date) }}" required>
                         @error('birth_date')
                             <div class="invalid-feadback">{{ $message }}</div>
                         @enderror
@@ -80,9 +90,9 @@
 
                     <div class="mb-3">
                         <label for="" class="form-label">Hire Date</label>
-                        <input type="date" class="form-control date" name="hire_date" required>
+                        <input type="date" class="form-control date" name="hire_date" value="{{ old('hire_date',$employee->hire_date) }}" required>
                         @error('hire_date')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -91,11 +101,11 @@
                         <select name="department_id" class="form-control @error('department_id') is-invalid @enderror">
                             <option value="">Select an Department</option>
                             @foreach($departments as $department) 
-                                <option value="{{ $department->id }}"->{{ $department->name }}</option>
+                                <option value="{{ $department->id }}" {{ ( $department->id == $employee->department_id ) ? 'selected' : '' }}>{{ $department->name }}</option>
                             @endforeach
                         </select>
                         @error('department_id')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -104,34 +114,34 @@
                         <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
                             <option value="">Select as role</option>
                             @foreach($roles as $role) 
-                                <option value="{{ $role->id }}"->{{ $role->title }}</option>
+                                <option value="{{ $role->id }}" @if( old('role_id', $employee->role_id ) == $role->id ) selected @endif>{{ $role->title }}</option>
                             @endforeach
                         </select>
                         @error('role_id')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Status</label>
                         <select name="status" class="form-control @error('status') is-invalid @enderror">
-                            <option value="inactive">Inactive</option>
-                            <option value="active">Active</option>
+                            <option value="inactive" {{ $employee->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            <option value="active"  {{ $employee->status == 'active' ? 'selected' : '' }}>Active</option>
                         </select>
                         @error('status')
-                            <div class="invalid-feadback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="" class="form-label">Salary</label>
-                        <input type="number" class="form-control" name="salary" required>
+                        <input type="number" class="form-control" name="salary" value ="{{ old('salary',$employee->salary) }}" required>
                         @error('salary')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Create Employee</button>
+                    <button type="submit" class="btn btn-primary">Update Employee</button>
                     <a href="{{ route('employees.index') }}" class="btn btn-secondary">Back to List</a>
                 </form> 
                 
