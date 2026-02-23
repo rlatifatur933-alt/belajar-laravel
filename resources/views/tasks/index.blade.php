@@ -58,7 +58,7 @@
 
                         <tr>
                             <td>{{ $task->title }}</td>
-                            <td>{{ $task->employee->fullname }}</td>
+                            <td>{{ $task->employee->fullname ?? 'Everardo Weissnat' }}</td>
                             <td>{{ $task->due_date }}</td>
                             <td>
                                 @if($task->status == 'pending')
