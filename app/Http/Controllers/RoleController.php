@@ -27,7 +27,7 @@ class RoleController extends Controller
 
         role::create($request->all());
 
-        return redirect()->route('roles.index')->with('success', 'Roles create succesfully');
+        return redirect()->route('roles.index')->with('success', 'Roles created succesfully');
     }
 
     public function edit(Role $role) {
@@ -43,5 +43,11 @@ class RoleController extends Controller
         $role->update($request->all());
 
         return redirect()->route('roles.index')->with('success', 'Roles updated succesfully');
+    }
+
+    public function destroy(Role $role) {
+        $role->delete();
+
+        return redirect()->route('roles.index')->with('success', 'Roles deleted succesfully');
     }
 }

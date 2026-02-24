@@ -157,8 +157,13 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-    let date = flatpickr('date',{
-        dateFormat: "Y-m-d"
+    let date = flatpickr('.date',{
+        dateFormat: "Y-m-d",
+    });
+
+    let datetime = flatpickr('.datetime',{
+        dateFormat: "Y-m-d H:i:s",
+        enableTime: true
     });
 </script>
 
