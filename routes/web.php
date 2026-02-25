@@ -8,7 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PresenceController;
-
+use App\Http\Controllers\PayrollController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +28,8 @@ route::resource('/roles', RoleController::class);
 // Handle presences
 route::resource('/presences', PresenceController::class);
 
+// Handle payrolls
+route::resource('/payrolls', PayrollController::class);
 
 // Handle tasks
 Route::resource('/tasks', TaskController::class);
