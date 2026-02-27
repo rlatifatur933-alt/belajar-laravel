@@ -40,4 +40,34 @@ class PayrollController extends Controller
 
         return redirect()->route('payrolls.index')->with('success', 'Payroll created succesfully');
     }
+
+    public function edit(Payroll $payroll) {
+        $employees = Employee::all();
+
+        return view('payrolls.edit', compact('payroll', 'employees'));
+    }
+
+    public function update(Request $request, Payroll $payroll) {
+        $request->validate([
+            'employee_id' => 'required',
+            'salary' => 'required|numeric',
+            'bonuses' => 'required|numeric',
+            'deductions' => 'required|numeric',
+            'pay_date' => 'required|date'
+        ]);
+
+        $netSalary = $request->input('salary') - $request->input('deductions') + $request->input('bonuses');
+
+        $request->merge(['net_salary' => $netSalary]);
+
+        $payroll->update($request->all());
+
+        return redirect()->route('payrolls.index')->with('success', 'Payroll updated succesfully.');
+    }
+
+    public function destroy(Payroll $payroll) {
+        $payroll->delete();
+
+        return redirect()->route('payrolls.index')->with('success', 'Payroll deleted succesfully.');
+    }
 }
