@@ -9,6 +9,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\LeaveRequestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,9 @@ route::resource('/presences', PresenceController::class);
 
 // Handle payrolls
 route::resource('/payrolls', PayrollController::class);
+
+// Handle leave request 
+route::resource('/leave-request', LeaveRequestController::class);
 
 // Handle tasks
 Route::resource('/tasks', TaskController::class);
