@@ -32,8 +32,10 @@ route::resource('/presences', PresenceController::class);
 // Handle payrolls
 route::resource('/payrolls', PayrollController::class);
 
-// Handle leave request 
-route::resource('/leave-request', LeaveRequestController::class);
+// Handle leave requests 
+route::resource('/leave-requests', LeaveRequestController::class);
+route::get('/leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm');
+route::get('/leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
 
 // Handle tasks
 Route::resource('/tasks', TaskController::class);
