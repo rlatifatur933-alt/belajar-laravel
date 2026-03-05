@@ -10,7 +10,13 @@ use App\Models\Employee;
 class PresenceController extends Controller
 {
     public function index() {
-        $presences = Presence::all();
+
+        if (session('role') == 'Belajar Laravel') {
+            $presences = Presence::all();
+        } else {
+            $presences = Presence::where('employee_id', session('employee_id'))->get();
+        }
+        
         return view('presences.index', compact('presences'));
     }
 

@@ -34,6 +34,8 @@
                 </h5>
             </div>
             <div class="card-body">
+
+                @if (session('role') == 'Belajar Laravel')
                 
                 <form action="{{ route('presences.store') }}" method="POST">
                     @csrf 
@@ -89,11 +91,80 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="{{ route('presences.index') }}" class="btn btn-secondary">Back to List</a>
                 </form> 
-                
+
+                @else
+
+                <form action="{{ route('presences.store') }}" method="POST">
+                    @csrf
+
+                    <div class="mb-3"><b>Note</b> : Mohon izinkan akses lokasi, supaya presensi diterima</div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Latitude</label>
+                        <input type="text" class="form-control" name="latitude" id="latitude" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Longitude</label>
+                        <input type="text" class="form-control" name="longitude" id="longitude" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <iframe width="500" height="300" frameborder="0" scrollinge="no" marginheight="0" marginwidth="0" src=""></iframe>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btn-present" disabled>Present</button>
+                </form>
+
+                @endif
             </div>
         </div>
 
     </section>
 </div>
+
+<script>
+const iframe = document.querySelector('iframe');
+const officeLat = -6.8911104;
+const officeLon = 107.544576;
+const threshold = 0.01; 
+
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        const currentLat = position.coords.latitude;
+        const currentLon = position.coords.longitude;
+
+        // Update input field
+        const latInput = document.getElementById('latitude');
+        const lonInput = document.getElementById('longitude');
+        
+        if(latInput && lonInput) {
+            latInput.value = currentLat;
+            lonInput.value = currentLon;
+        }
+
+        // Update Iframe Map - Menggunakan format URL yang benar
+        if(iframe) {
+            iframe.src = `https://maps.google.com/maps?q=${currentLat},${currentLon}&z=15&output=embed`;
+        }
+
+        // Hitung jarak (Pythagoras sederhana)
+        const distance = Math.sqrt(Math.pow(currentLat - officeLat, 2) + Math.pow(currentLon - officeLon, 2));
+
+        const btnPresent = document.getElementById('btn-present');
+        if (distance <= threshold) {
+            alert('Kamu berada di kantor, selamat bekerja!');
+            if(btnPresent) btnPresent.removeAttribute('disabled');
+        } else {
+            alert('Kamu tidak berada di kantor. Pastikan kamu berada di area kantor untuk absen.');
+        }
+    }, function(error) {
+        alert("Gagal mengambil lokasi: " + error.message);
+    });
+} else {
+    alert("Browser kamu nggak support lokasi nih.");
+}
+</script>
 
 @endsection 

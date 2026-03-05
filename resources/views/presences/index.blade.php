@@ -51,7 +51,9 @@
                             <th>Check Out</th>
                             <th>Date</th>
                             <th>Status</th>
+                            @if (session('role') == 'Belajar Laravel')
                             <th>Option</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -70,13 +72,15 @@
                             </td>
                             
                             <td>
-                                <a href="{{ route('presences.edit', $presence->id) }}"class="btn btn-warning btn-sm">Edit</a>
+                                @if (session('role') == 'Belajar Laravel')
+                                     <a href="{{ route('presences.edit', $presence->id) }}"class="btn btn-warning btn-sm">Edit</a>
 
-                                <form action="{{ route('presences.destroy', $presence->id)}}" method="POST" style="display: inline">
-                                     @csrf
-                                     @method('DELETE') 
-                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                                     <form action="{{ route('presences.destroy', $presence->id)}}" method="POST" style="display: inline">
+                                           @csrf
+                                           @method('DELETE') 
+                                           <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                     </form>
+                                @endif
                             </td>
                         </tr>
 
