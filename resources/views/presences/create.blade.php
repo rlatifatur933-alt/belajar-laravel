@@ -125,46 +125,43 @@
 
 <script>
 const iframe = document.querySelector('iframe');
-const officeLat = -6.8911104;
-const officeLon = 107.544576;
-const threshold = 0.01; 
 
+const officelat = -8.211364;
+const officelon = 113.560420;
+const threshold = 0.01;
 
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-        const currentLat = position.coords.latitude;
-        const currentLon = position.coords.longitude;
+navigator.geolocation.getCurrentPosition(function(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    iframe.src = `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+});
 
-        // Update input field
-        const latInput = document.getElementById('latitude');
-        const lonInput = document.getElementById('longitude');
-        
-        if(latInput && lonInput) {
-            latInput.value = currentLat;
-            lonInput.value = currentLon;
-        }
+document.addEventListener('DOMContentLoaded', (event) => {
 
-        // Update Iframe Map - Menggunakan format URL yang benar
-        if(iframe) {
-            iframe.src = `https://maps.google.com/maps?q=${currentLat},${currentLon}&z=15&output=embed`;
-        }
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) { 
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
 
-        // Hitung jarak (Pythagoras sederhana)
-        const distance = Math.sqrt(Math.pow(currentLat - officeLat, 2) + Math.pow(currentLon - officeLon, 2));
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lon;
 
-        const btnPresent = document.getElementById('btn-present');
-        if (distance <= threshold) {
-            alert('Kamu berada di kantor, selamat bekerja!');
-            if(btnPresent) btnPresent.removeAttribute('disabled');
-        } else {
-            alert('Kamu tidak berada di kantor. Pastikan kamu berada di area kantor untuk absen.');
-        }
-    }, function(error) {
-        alert("Gagal mengambil lokasi: " + error.message);
-    });
-} else {
-    alert("Browser kamu nggak support lokasi nih.");
-}
+            // Compare lokasi sekarang dengan lokasi kantor.
+            const distance = Math.sqrt(Math.pow(lat - officelat, 2) + Math.pow(lon - officelon, 2));
+
+            if (distance <= threshold) {
+                // Posisi ada disekitar kantor
+                alert('Kamu berada di kantor, selamat bekerja!');
+                document.getElementById('btn-present').removeAttribute('disabled');
+
+            } else {
+                // Posisi diluar kantor
+                alert('Kamu tidak berada dikantor, pstikan kamu berada dikantor untuk melakukan presensi');
+            }
+        });
+    }
+});
+
 </script>
 
-@endsection 
+@endsection

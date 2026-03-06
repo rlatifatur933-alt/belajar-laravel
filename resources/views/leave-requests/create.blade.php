@@ -48,17 +48,19 @@
                 <form action="{{ route('leave-requests.store') }}" method="POST">
                     @csrf 
 
-                    <div class="mb-3">
-                        <label for="" class="form-label">Employee</label>
-                        <select name="employee_id" id="status" class="form-control">
-                            @foreach($employees as $employee)
-                                 <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>
-                            @endforeach  
-                        </select>
-                        @error('employee_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    @if(session('role') == 'Belajar Laravel')
+                       <div class="mb-3">
+                            <label for="" class="form-label">Employee</label>
+                            <select name="employee_id" id="status" class="form-control">
+                                  @foreach($employees as $employee)
+                                      <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>
+                                  @endforeach  
+                            </select>
+                            @error('employee_id')
+                                  <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                     </div>
+                    @endif
 
                     <div class="mb-3">
                         <label for="" class="form-label">Leave Type</label>

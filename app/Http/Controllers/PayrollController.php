@@ -10,8 +10,12 @@ use App\Models\Employee;
 class PayrollController extends Controller
 {
     public function index() {
-
-        $payrolls = Payroll::all();
+        
+        if (session('role') == 'Belajar Laravel') {
+            $payrolls = Payroll::all();
+        } else {
+            $payrolls = Payroll::where('employee_id', session('employee_id'))->get();
+        }
 
         return view('payrolls.index', compact('payrolls'));
     }

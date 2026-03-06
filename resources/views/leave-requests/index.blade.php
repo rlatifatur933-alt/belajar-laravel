@@ -51,7 +51,9 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
+                            @if(session('role') == 'Belajar Laravel')
                             <th>Option</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -72,19 +74,21 @@
                                 @endif 
                             </td>
                             <td>
-                                @if ($leaveRequest->status == 'pending' || $leaveRequest->status == 'reject')
-                                    <a href="{{ route('leave-requests.confirm', $leaveRequest->id) }}"class="btn btn-success btn-sm">Confirm</a>
-                                @else
-                                    <a href="{{ route('leave-requests.reject', $leaveRequest->id) }}"class="btn btn-secondary btn-sm">Reject</a>
-                                @endif 
+                                @if(session('role') == 'Belajar Laravel')
+                                    @if ($leaveRequest->status == 'pending' || $leaveRequest->status == 'reject')
+                                        <a href="{{ route('leave-requests.confirm', $leaveRequest->id) }}"class="btn btn-success btn-sm">Confirm</a>
+                                    @else
+                                        <a href="{{ route('leave-requests.reject', $leaveRequest->id) }}"class="btn btn-secondary btn-sm">Reject</a>
+                                    @endif 
                                 
-                                <a href="{{ route('leave-requests.edit', $leaveRequest->id) }}"class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('leave-requests.edit', $leaveRequest->id) }}"class="btn btn-warning btn-sm">Edit</a>
 
-                                <form action="{{ route('leave-requests.destroy', $leaveRequest->id)}}" method="POST" style="display: inline">
-                                     @csrf
-                                     @method('DELETE') 
-                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                                        <form action="{{ route('leave-requests.destroy', $leaveRequest->id)}}" method="POST" style="display: inline">
+                                              @csrf
+                                              @method('DELETE') 
+                                              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                @endif
                             </td>
                         </tr>
 
