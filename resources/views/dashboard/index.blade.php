@@ -90,7 +90,7 @@
                     <h4>Latest Presence</h4>
                 </div>
                 <div class="card-body">
-                    <div id="chart-profile-visit"></div>
+                    <canvas id="presence"></canvas>
                 </div>
             </div>
         </div>

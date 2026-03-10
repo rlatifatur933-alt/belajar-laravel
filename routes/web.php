@@ -12,12 +12,12 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\LeaveRequestController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::middleware('auth')->group(function() {
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:Belajar Laravel,Developer,Sales,Data Entry']);
+    Route::get('/dashboard/presence', [DashboardController::class, 'presence']);
 
     // Handle employees 
     Route::resource('/employees', EmployeeController::class)->middleware(['role:Belajar Laravel']);
