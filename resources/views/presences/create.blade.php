@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <iframe width="500" height="300" frameborder="0" scrollinge="no" marginheight="0" marginwidth="0" src=""></iframe>
+                        <iframe id="map-iframe" width="500" height="300" src=""></iframe>
                     </div>
 
                     <button type="submit" class="btn btn-primary" id="btn-present" disabled>Present</button>
@@ -133,7 +133,7 @@ const threshold = 0.01;
 navigator.geolocation.getCurrentPosition(function(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    iframe.src = `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+    iframe.src = `https://maps.google.com/maps?q=${lat},${lon}&hl=id&z=15&output=embed`;
 });
 
 document.addEventListener('DOMContentLoaded', (event) => {
